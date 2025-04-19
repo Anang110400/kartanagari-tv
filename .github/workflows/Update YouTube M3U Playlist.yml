@@ -3,7 +3,7 @@ name: Update YouTube M3U Playlist
 on:
   schedule:
     - cron: '*/1 * * * *'  # Menjalankan setiap 1 menit
-  workflow_dispatch:  # Memungkinkan manual trigger juga
+  workflow_dispatch:
 
 jobs:
   update-playlist:
@@ -29,4 +29,5 @@ jobs:
           git config user.email "actions@github.com"
           git add playlist.txt
           git diff --quiet && git diff --staged --quiet || git commit -m "Update playlist.txt"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Anang110400/kartanagari-tv.git
           git push

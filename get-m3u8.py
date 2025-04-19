@@ -3,7 +3,7 @@ import subprocess
 with open("live.txt", "r") as f:
     lines = f.readlines()
 
-playlist = ["#EXTM3U"]
+playlist = []
 for index, line in enumerate(lines, start=1):
     if "|" not in line:
         continue
@@ -22,12 +22,11 @@ for index, line in enumerate(lines, start=1):
             check=True
         )
         m3u8_url = result.stdout.strip().splitlines()[0]
-        playlist.append(f'#EXTINF:-1 tvg-id="yt{index}" tvg-name="{title}",{title}')
-        playlist.append(m3u8_url)
+        playlist.append(f"{title} | {m3u8_url}")
     except subprocess.CalledProcessError as e:
         print(f"Gagal fetch M3U8 untuk {title}: {e.stderr}")
 
-with open("playlist.m3u", "w") as f:
+with open("playlist.txt", "w") as f:
     f.write("\n".join(playlist) + "\n")
 
-print("playlist.m3u berhasil diupdate.")
+print("playlist.txt berhasil diupdate.")
